@@ -6,13 +6,22 @@ Bartender - Ingredient - Pantry - Bar
 */
 
 function Bar(){
-
-
+  this.barNameArr = ["The Salty Dog", "Arrrrrby's", "Handsome Jack's", "The Plank", "Treasure Island"];
+  this.barName = this.barNameArr[Math.floor(Math.random() * this.barNameArr.length)];
+  this.bartenderNameArr = ["One Eye Pete", "The Captain", "Jim.... What!? Think ye that every pirate needs a silly name!?"];
+  this.bartenderName = this.bartenderNameArr[Math.floor(Math.random() * this.bartenderNameArr.length)];
 }
 
 Bar.prototype.pantry = function(){
-
-}
+  this.mainDrinksArr = ["Rum", "Whisky", "Gin", "Tonic", "Cola", "Water"],
+  this.extraDrinkIngredients = {
+    strong: ["Glug of rum", "Splash of whisky", "Slug of gin"],
+    salty: ["Olive on a stick", "Salt-dusted rim", "Rasher of bacon"],
+    bitter: ["Shake of bitters", "Splash of tonic", "Twist of lemon"],
+    sweet: ["Sugar cube", "Spoonful of honey", "Splash of cola"],
+    fruity: ["Slice of orange", "Dash of cassis", "Cherry on top"]
+  }
+};
 
 var barNameArr = ["The Salty Dog", "Arrrrrby's", "Handsome Jack's", "The Plank", "Treasure Island"];
 
