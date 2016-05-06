@@ -16,40 +16,6 @@ var drinkIngredients = {
 
 var drinkQuestionsArr = ["Do ye like yer drinks strong?", "Do ye like it with a salty tang?", "Are ye a lubber who likes it bitter?", "Would you like a little sweetness with yer poison?", "Are ye one for a fruity finish?"];
 
-function Bar(barNameArr){
-  this.barName = barNameArr[Math.floor(Math.random() * barNameArr.length)];
-}
-
-Bar.prototype.pantry = function(mainDrinksArr, extraDrinkIngredients){
-  return this.pantryItems = { //creates object and returns it at the same time.
-    mainDrinksArr: mainDrinksArr,
-    extraDrinkIngredients: extraDrinkIngredients
-  }
-}
-
-//try to make bartender a prototype of Person...
-function Person(nameArr){
-  this.name = nameArr[Math.floor(Math.random() * nameArr.length)];
-}
-
-function Bartender(questionArr, bar){
-  this.questions = questionArr;
-  this.askQuestion = function(){
-      var question = questionArr[Math.floor(Math.random() * questionArr.length)];
-      return question;
-  };
-  this.stuffIHave = bar.pantry(mainDrinksArr, drinkIngredients);
-}
-
-Bartender.prototype = new Person(bartenderNameArr);
-
-Bartender.prototype.mixDrinkAndServe = function(userAnswer){
-  var mainDrinks = bar.pantryItems.mainDrinksArr;
-  var randomDrink = mainDrinks[Math.floor(Math.random() * mainDrinks.length)];
-  var userChoice = userAnswer;
-  console.log("Here's a drink! " + randomDrink + " and a " + userChoice);
-}
-
 $(document).ready(function(){
   bar = new Bar(barNameArr);
   bartender = new Bartender(drinkQuestionsArr, bar);
@@ -64,15 +30,59 @@ $(document).ready(function(){
     //var customerAnswer;
     if ($(this).html() === 'Yes'){
       bartender.mixDrinkAndServe(getAndCompareAnswer());
-      console.log(getAndCompareAnswer());
     } else {
       $('.main__question-text').text(bartender.askQuestion());
     }
   });
 });
 
+//The main building object
+function Building(size, type){
+  this.size = size;
+  this.type = type;
+}
+
+//The main Bar object.
+function Bar(barNameArr){
+  this.barName = barNameArr[Math.floor(Math.random() * barNameArr.length)];
+}
+
+//Bar inherits from Building
+Bar.prototype = new Building("Small", "Food service");
+
+Bar.prototype.pantry = function(mainDrinksArr, extraDrinkIngredients){
+  return this.pantryItems = { //creates object and returns it at the same time.
+    mainDrinksArr: mainDrinksArr,
+    extraDrinkIngredients: extraDrinkIngredients
+  }
+}
+
+//The main Person object
+function Person(nameArr){
+  this.name = nameArr[Math.floor(Math.random() * nameArr.length)];
+}
+
+//The main Bartender object
+function Bartender(questionArr, bar){
+  this.questions = questionArr;
+  this.askQuestion = function(){
+      var question = questionArr[Math.floor(Math.random() * questionArr.length)];
+      return question;
+  };
+  this.stuffIHave = bar.pantry(mainDrinksArr, drinkIngredients);
+}
+
+//Bartender inherits from Person.
+Bartender.prototype = new Person(bartenderNameArr);
+
+Bartender.prototype.mixDrinkAndServe = function(userAnswer){
+  var mainDrinks = bar.pantryItems.mainDrinksArr;
+  var randomDrink = mainDrinks[Math.floor(Math.random() * mainDrinks.length)];
+  var userChoice = userAnswer;
+  $('.main__bar').append("Here's your drink! " + randomDrink + " and " + userChoice + "!");
+}
 //match the index of the user's choice based on the text of the question to an appropriate/random drink ingredient.
-var getAndCompareAnswer = function(){
+function getAndCompareAnswer(){
   var userAnswerIndex = (drinkQuestionsArr.indexOf($('.main__question-text').text()));
   var bartenderChoices = bartender.stuffIHave.extraDrinkIngredients;
   switch (userAnswerIndex) {
